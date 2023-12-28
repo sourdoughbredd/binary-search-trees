@@ -2,6 +2,8 @@ import { Node } from "./node.js";
 import { mergeSort } from "./merge-sort.js";
 import { Queue } from "./queue.js";
 
+export { BST };
+
 function removeDuplicates(array) {
   return [...new Set(array)];
 }
@@ -87,7 +89,7 @@ const BST = function (array = null) {
   function isBalancedRec(root) {
     if (root == null) return true;
     return (
-      Math.abs(height(root.left) - height(root.right)) > 1 &&
+      Math.abs(height(root.left) - height(root.right)) <= 1 &&
       isBalancedRec(root.left) &&
       isBalancedRec(root.right)
     );
@@ -265,18 +267,18 @@ const BST = function (array = null) {
 };
 
 // TESTING BALANCE
-const bst = BST([0, 1, 2, 3, 4, 5, 6]);
-bst.print();
-console.log("Balanced? " + bst.isBalanced());
-console.log("Adding lots of high numbers...");
-bst.insert(7);
-bst.insert(8);
-bst.insert(9);
-bst.print();
-console.log("Balanced? " + bst.isBalanced());
-console.log("Rebalancing the tree...");
-bst.rebalance();
-bst.print();
+// const bst = BST([0, 1, 2, 3, 4, 5, 6]);
+// bst.print();
+// console.log("Balanced? " + bst.isBalanced());
+// console.log("Adding lots of high numbers...");
+// bst.insert(7);
+// bst.insert(8);
+// bst.insert(9);
+// bst.print();
+// console.log("Balanced? " + bst.isBalanced());
+// console.log("Rebalancing the tree...");
+// bst.rebalance();
+// bst.print();
 
 // TESTING HEIGHT/DEPTH
 // const bst = BST([0, 1, 2, 3, 4, 5, 6]);
