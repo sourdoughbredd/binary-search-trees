@@ -19,112 +19,6 @@ const BST = function (array = null) {
     root = buildTree(uniqueSorted);
   }
 
-  // Inserts an element into the tree
-  function insert(value) {
-    root = insertRec(root, value);
-  }
-
-  // Deletes a value from the tree
-  function deleteVal(value) {
-    root = deleteRec(root, value);
-  }
-
-  // Returns the node containing the specified value
-  function find(value) {
-    return findRec(root, value);
-  }
-
-  // Default callback for traversals
-  const defaultCallback = (node) => node.data;
-
-  // Level-Order Traversal
-  function levelOrder(callback = defaultCallback) {
-    const results = [];
-    const q = Queue();
-    q.enqueue(root);
-    while (!q.isEmpty()) {
-      // Dequeue next node run through callback
-      const dq = q.dequeue();
-      results.push(callback(dq));
-      // Queue its children
-      if (dq.left != null) q.enqueue(dq.left);
-      if (dq.right != null) q.enqueue(dq.right);
-    }
-    return results;
-  }
-
-  // Pre-Order Traversal
-  function preOrder(callback = defaultCallback) {
-    return preOrderRec(root, callback);
-  }
-
-  // In-Order Traversal
-  function inOrder(callback = defaultCallback) {
-    return inOrderRec(root, callback);
-  }
-
-  // Post-Order Traversal
-  function postOrder(callback = defaultCallback) {
-    return postOrderRec(root, callback);
-  }
-
-  // Returns height of a node
-  function height(node) {
-    if (node == null) return null;
-    if (node.isLeaf()) return 0;
-    return 1 + Math.max(height(node.left), height(node.right));
-  }
-
-  // Returns the depth of a node
-  function depth(node) {
-    if (node == null) return null;
-    return depthRec(root, node);
-  }
-
-  // Returns true if the tree is balanced, false otherwise
-  function isBalanced() {
-    return isBalancedRec(root);
-  }
-
-  function isBalancedRec(root) {
-    if (root == null) return true;
-    return (
-      Math.abs(height(root.left) - height(root.right)) <= 1 &&
-      isBalancedRec(root.left) &&
-      isBalancedRec(root.right)
-    );
-  }
-
-  // Rebalances an unbalanced tree
-  function rebalance() {
-    if (isBalanced()) return;
-    const orderedValues = inOrder(); // so we don't have to sort
-    root = buildTree(orderedValues);
-  }
-
-  // Prints a graphical representation of the tree
-  function print() {
-    prettyPrint(root);
-  }
-
-  const output = {
-    root,
-    insert,
-    delete: deleteVal,
-    find,
-    levelOrder,
-    preOrder,
-    inOrder,
-    postOrder,
-    height,
-    depth,
-    isBalanced,
-    rebalance,
-    print,
-  };
-
-  ///////// PRIVATE HELPERS
-
   function buildTree(a) {
     if (a.length <= 0) {
       return null;
@@ -135,6 +29,11 @@ const BST = function (array = null) {
     const left = buildTree(a.slice(0, mid));
     const right = buildTree(a.slice(mid + 1));
     return Node(data, left, right);
+  }
+
+  // Inserts an element into the tree
+  function insert(value) {
+    root = insertRec(root, value);
   }
 
   function insertRec(root, value) {
@@ -153,6 +52,11 @@ const BST = function (array = null) {
       root.right = insertRec(root.right, value);
     }
     return root;
+  }
+
+  // Deletes a value from the tree
+  function deleteVal(value) {
+    root = deleteRec(root, value);
   }
 
   function deleteRec(root, value) {
@@ -198,6 +102,11 @@ const BST = function (array = null) {
     return root;
   }
 
+  // Returns the node containing the specified value
+  function find(value) {
+    return findRec(root, value);
+  }
+
   function findRec(root, value) {
     if (root == null || root.data == value) {
       // Found value or finished search without finding
@@ -210,6 +119,30 @@ const BST = function (array = null) {
     }
   }
 
+  // Default callback for traversals
+  const defaultCallback = (node) => node.data;
+
+  // Level-Order Traversal
+  function levelOrder(callback = defaultCallback) {
+    const results = [];
+    const q = Queue();
+    q.enqueue(root);
+    while (!q.isEmpty()) {
+      // Dequeue next node run through callback
+      const dq = q.dequeue();
+      results.push(callback(dq));
+      // Queue its children
+      if (dq.left != null) q.enqueue(dq.left);
+      if (dq.right != null) q.enqueue(dq.right);
+    }
+    return results;
+  }
+
+  // Pre-Order Traversal
+  function preOrder(callback = defaultCallback) {
+    return preOrderRec(root, callback);
+  }
+
   function preOrderRec(root, callback) {
     if (root == null) {
       return [];
@@ -218,6 +151,11 @@ const BST = function (array = null) {
     const left = preOrderRec(root.left, callback);
     const right = preOrderRec(root.right, callback);
     return [result, ...left, ...right];
+  }
+
+  // In-Order Traversal
+  function inOrder(callback = defaultCallback) {
+    return inOrderRec(root, callback);
   }
 
   function inOrderRec(root, callback) {
@@ -230,6 +168,10 @@ const BST = function (array = null) {
     return [...left, result, ...right];
   }
 
+  // Post-Order Traversal
+  function postOrder(callback = defaultCallback) {
+    return postOrderRec(root, callback);
+  }
   function postOrderRec(root, callback) {
     if (root == null) {
       return [];
@@ -240,6 +182,19 @@ const BST = function (array = null) {
     return [...left, ...right, result];
   }
 
+  // Returns height of a node
+  function height(node) {
+    if (node == null) return null;
+    if (node.isLeaf()) return 0;
+    return 1 + Math.max(height(node.left), height(node.right));
+  }
+
+  // Returns the depth of a node
+  function depth(node) {
+    if (node == null) return null;
+    return depthRec(root, node);
+  }
+
   function depthRec(root, node) {
     if (root === null || node === root) return 0;
     return (
@@ -248,6 +203,32 @@ const BST = function (array = null) {
         ? depthRec(root.left, node)
         : depthRec(root.right, node))
     );
+  }
+
+  // Returns true if the tree is balanced, false otherwise
+  function isBalanced() {
+    return isBalancedRec(root);
+  }
+
+  function isBalancedRec(root) {
+    if (root == null) return true;
+    return (
+      Math.abs(height(root.left) - height(root.right)) <= 1 &&
+      isBalancedRec(root.left) &&
+      isBalancedRec(root.right)
+    );
+  }
+
+  // Rebalances an unbalanced tree
+  function rebalance() {
+    if (isBalanced()) return;
+    const orderedValues = inOrder(); // so we don't have to sort
+    root = buildTree(orderedValues);
+  }
+
+  // Prints a graphical representation of the tree
+  function print() {
+    prettyPrint(root);
   }
 
   const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -263,7 +244,21 @@ const BST = function (array = null) {
     }
   };
 
-  return output;
+  return {
+    root,
+    insert,
+    delete: deleteVal,
+    find,
+    levelOrder,
+    preOrder,
+    inOrder,
+    postOrder,
+    height,
+    depth,
+    isBalanced,
+    rebalance,
+    print,
+  };
 };
 
 // TESTING BALANCE
