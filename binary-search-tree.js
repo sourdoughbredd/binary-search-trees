@@ -11,6 +11,11 @@ function removeDuplicates(array) {
 const BST = function (array = null) {
   let root;
 
+  // Getter for root
+  function getRoot() {
+    return root;
+  }
+
   // Initialize BST
   if (array === null) {
     root = null;
@@ -245,7 +250,7 @@ const BST = function (array = null) {
   };
 
   return {
-    root,
+    getRoot,
     insert,
     delete: deleteVal,
     find,
